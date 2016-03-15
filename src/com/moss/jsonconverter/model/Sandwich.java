@@ -4,7 +4,7 @@ public class Sandwich {
 
 	public String name;
 	public int price;
-	public String[] ingredients = {"ham", "tomatto", "lettuce"};
+	public String[] ingredients = {"szynka", "pomidor", "sa³ata"};
 	
 	public Sandwich() {
 		name = "Kanapka z szynka";

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.lang.reflect.Array;
 
 public class Converter {
 
@@ -24,9 +25,15 @@ public class Converter {
 			sBuilder.append(fieldName);
 			sBuilder.append("\"");
 			sBuilder.append(":");
-			sBuilder.append("\"");
-			sBuilder.append(fieldValue);
-			sBuilder.append("\"");
+			System.out.println(fieldValue.getClass());
+			if (fieldValue.getClass().isArray()) {
+				sBuilder.append(convertArray(fields[i].get(model)));
+			}
+			else {
+				sBuilder.append("\"");
+				sBuilder.append(fieldValue);
+				sBuilder.append("\"");
+			}
 			if (i != fields.length - 1) {
 				sBuilder.append(",");
 			}
@@ -39,6 +46,22 @@ public class Converter {
 		} catch (IOException anException) {
 			anException.printStackTrace();
 		}
+	}
+	
+	public String convertArray(Object array) throws IllegalArgumentException {
+		StringBuilder sBuilder = new StringBuilder("[");
+		int length = Array.getLength(array);
+		for (int i = 0; i < length; i++) {
+			Object value = Array.get(array, i);
+			sBuilder.append("\"");
+			sBuilder.append(value);
+			sBuilder.append("\"");
+			if (i != length - 1) {
+				sBuilder.append(",");
+			}
+		}
+		sBuilder.append("]");
+		return sBuilder.toString();
 	}
 
 }
