@@ -19,14 +19,16 @@ public class Converter {
 		Field[] fields = model.getClass().getDeclaredFields();
 
 		for (int i = 0; i < fields.length; i++) {
+			fields[i].setAccessible(true);
 			String fieldName = fields[i].getName();
 			Object fieldValue = fields[i].get(model);
+			Class<?> fieldType = fields[i].getType();
 			sBuilder.append("\"");
 			sBuilder.append(fieldName);
 			sBuilder.append("\"");
 			sBuilder.append(":");
-			System.out.println(fieldValue.getClass());
-			if (fieldValue.getClass().isArray()) {
+			System.out.println(fieldType);
+			if (fieldType.isArray()) {
 				sBuilder.append(convertArray(fields[i].get(model)));
 			}
 			else {
